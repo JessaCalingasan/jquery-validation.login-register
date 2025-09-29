@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Register</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+  background: url('https://i.pinimg.com/1200x/3f/1c/c5/3f1cc5cbe1017959a1919807264b3948.jpg') no-repeat center/cover;
+  font-family: 'Poppins', sans-serif;
+}
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  font-size: 15px;
+}
+.form-control {
+  padding-left: 42px;
+  font-size: 15px;
+}
+.form-box {
+  max-width: 420px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  padding: 40px 30px;
+}
+.btn-primary {
+  background-color: #4e73df;
+  border: none;
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background-color: #2e59d9;
+}
+.btn-success {
+  background-color: #1cc88a;
+  border: none;
+  font-weight: 600;
+}
+.btn-success:hover {
+  background-color: #17a673;
+}
+.btn-danger {
+  background-color: #e74a3b;
+  border: none;
+  font-weight: 600;
+}
+.btn-danger:hover {
+  background-color: #be2617;
+}
+h2 {
+  font-weight: 600;
+  color: #333;
+}
+input.error {
+  border-color: red;
+}
+label.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 3px;
+  text-align: left;
+  display: block;
+}
+</style>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+
+<div class="form-box text-center" id="loginForm">
+  <h2 class="mb-4">Login</h2>
+  <form id="loginValidation" novalidate>
+    <div class="mb-3 position-relative">
+      <i class="fa fa-user input-icon"></i>
+      <input type="text" name="username" class="form-control rounded-pill" placeholder="Username" required>
+    </div>
+    <div class="mb-3 position-relative">
+      <i class="fa fa-lock input-icon"></i>
+      <input type="password" name="password" class="form-control rounded-pill" placeholder="Password" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100 rounded-pill">Login</button>
+  </form>
+  <p class="mt-3">Don’t have an account? <a href="#" onclick="toggleForms()">Register</a></p>
+</div>
+
+<div class="form-box text-center d-none" id="registerForm">
+  <h2 class="mb-4">Register</h2>
+  <form id="registerValidation" novalidate>
+    <div class="mb-3 position-relative">
+      <i class="fa fa-user input-icon"></i>
+      <input type="text" name="username" class="form-control rounded-pill" placeholder="Username" required>
+    </div>
+    <div class="mb-3 position-relative">
+      <i class="fa fa-envelope input-icon"></i>
+      <input type="email" name="email" class="form-control rounded-pill" placeholder="Email Address" required>
+    </div>
+    <div class="mb-3 position-relative">
+      <i class="fa fa-phone input-icon"></i>
+      <input type="tel" name="phone" class="form-control rounded-pill" placeholder="Phone Number" required>
+    </div>
+    <div class="mb-3 position-relative">
+      <i class="fa fa-lock input-icon"></i>
+      <input type="password" id="regPass" name="password" class="form-control rounded-pill" placeholder="Password" required>
+    </div>
+    <div class="mb-3 position-relative">
+      <i class="fa fa-lock input-icon"></i>
+      <input type="password" name="confirm_password" class="form-control rounded-pill" placeholder="Confirm Password" required>
+    </div>
+    <button type="submit" class="btn btn-success w-100 rounded-pill">Register</button>
+  </form>
+  <p class="mt-3">Already have an account? <a href="#" onclick="toggleForms()">Login</a></p>
+</div>
+
+<div class="form-box text-center d-none" id="landingPage">
+  <h2>Welcome to My Landing Page,<br>BSIT - SM 3102 🎉</h2>
+  <button class="btn btn-danger mt-3 rounded-pill" onclick="logout()">Logout</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script>
+const loginForm=document.getElementById("loginForm"),
+      registerForm=document.getElementById("registerForm"),
+      landingPage=document.getElementById("landingPage");
+
+function toggleForms(){
+  loginForm.classList.toggle("d-none");
+  registerForm.classList.toggle("d-none");
+}
+function logout(){
+  landingPage.classList.add("d-none");
+  loginForm.classList.remove("d-none");
+}
+
+$("#loginValidation").validate({
+  rules:{
+    username:{required:true},
+    password:{required:true}
+  },
+  messages:{
+    username:{required:"Enter your username"},
+    password:{required:"Enter your password"}
+  },
+  submitHandler:function(form){
+    let user=$("input[name='username']",form).val();
+    let pass=$("input[name='password']",form).val();
+    if(user==="admin" && pass==="12345"){
+      loginForm.classList.add("d-none");
+      landingPage.classList.remove("d-none");
+    } else {
+      alert("Invalid login. Use username: admin & password: 12345");
+    }
+  }
+});
+
+$("#registerValidation").validate({
+  rules:{
+    username:{required:true},
+    email:{required:true,email:true},
+    phone:{required:true,digits:true,minlength:10},
+    password:{required:true},
+    confirm_password:{required:true,equalTo:"#regPass"}
+  },
+  messages:{
+    username:{required:"Enter your username"},
+    email:{required:"Enter your email address"},
+    phone:{required:"Enter your phone number"},
+    password:{required:"Enter your password"},
+    confirm_password:{
+      required:"Please confirm your password",
+      equalTo:"Please match the password"
+    }
+  },
+  submitHandler:function(form){
+    let user=$("input[name='username']",form).val();
+    let pass=$("input[name='password']",form).val();
+    if(user==="admin" && pass==="12345"){
+      registerForm.classList.add("d-none");
+      landingPage.classList.remove("d-none");
+    } else {
+      alert("For demo, use username: admin & password: 12345");
+    }
+  }
+});
+</script>
+</body>
+</html>
+
+
